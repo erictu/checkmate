@@ -23,14 +23,15 @@ def main():
             move = tiebreaker.readline()
             move = move[:len(move)-1]
             # print(len(move))
-            if len(move) == 8: #got a correct move, ready to send to computer, for some reason 6 is 8
+            if ((len(move) == 7) or (len(move) == 8)): #got a correct move, ready to send to computer, for some reason 6 is 8
                 UDPSock.sendto(move, addr)
                 open('log.txt', 'w').close() #completely empty the file
                 looking = False
                 print("got it")
+                print(move)
                 print("------------------------")
-            # else:
-            #     print move
+            else:
+                print(len(move))
         # data = raw_input("Enter your move: ")
         # send_msg = getDataFromArduino()
         # UDPSock.sendto(send_msg, addr)

@@ -9,7 +9,8 @@ import time, serial
 def flush_to_log(data):
     # print("Received message [Player 1]: " + data)
     fh = open("log.txt","a")
-    fh.write(data + "\n")
+    fh.write(data)
+    print("in data" + data)
     fh.close()
 
 def getDataFromArduino(ser):
@@ -18,11 +19,11 @@ def getDataFromArduino(ser):
         while not received:
             # ser.write(send_msg)
             data = ser.readline() # Read the newest output from the Arduino
-            if len(data) == 8: #length 6
+            if (len(data) == 8): #length 6
                 print (data)
                 received = True
                 # ser.write("z")
-                sleep(.2) # Delay for one tenth of a second
+                # sleep(.2) # Delay for one tenth of a second
                 return data
             # else:
             #     print "wrong length of data received"
@@ -40,7 +41,7 @@ def getDataFromArduino(ser):
                 print (data)
                 received = True
                 # ser.write("z")
-                sleep(.2) # Delay for one tenth of a second
+                # sleep(.2) # Delay for one tenth of a second
                 return data
             # else:
             #     print "wrong length of data received"
@@ -62,6 +63,7 @@ def main():
         # sendDataToArduino(rcv_msg)
         # send_msg = raw_input("Enter your move: ")
         rcv_msg = getDataFromArduino(ser)
+        print("got message from arduino")
         print(rcv_msg)
         print("----------------------------------------")
         flush_to_log(rcv_msg)
