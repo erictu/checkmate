@@ -7,7 +7,7 @@ def receive_data(data):
     print("Received message [Player 2]: " + data)
 
 def main():
-    host = "localhost" # set to IP address of target computer
+    host = "10.142.1.103" # set to IP address of target computer
     port = 12000
     addr = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)

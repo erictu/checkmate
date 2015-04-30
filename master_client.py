@@ -5,27 +5,32 @@ import serial,time
 
 def send_to_board(data):
     print("Received message [Player 2]: " + data)
-    ser.write(data)
+    print("----------------------------")
+    # ser.write(data)
 
 def main():
-    host = "127.0.0.1" # set to IP address of target computer
-    port = 13000
+    host = "10.142.1.103" # set to IP address of target computer
+    port = 12000
     buf = 1024
     addr = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
     # ser = serial.Serial('/dev/ttyACM0', 9600)
     while True:
         looking = True
-        while looking: #getting a move to send to other computer, either from android or physical
+        while (looking == True): #getting a move to send to other computer, either from android or physical
+            # print("currently looking")
             tiebreaker = open("log.txt", "r")
             move = tiebreaker.readline()
             move = move[:len(move)-1]
-            if len(move) == 6: #got a correct move, ready to send to computer
+            # print(len(move))
+            if len(move) == 8: #got a correct move, ready to send to computer, for some reason 6 is 8
                 UDPSock.sendto(move, addr)
                 open('log.txt', 'w').close() #completely empty the file
                 looking = False
-            else:
-                print move
+                print("got it")
+                print("------------------------")
+            # else:
+            #     print move
         # data = raw_input("Enter your move: ")
         # send_msg = getDataFromArduino()
         # UDPSock.sendto(send_msg, addr)
