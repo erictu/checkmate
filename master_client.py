@@ -15,7 +15,7 @@ def main():
     addr = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
     # ser = serial.Serial('/dev/ttyACM0', 9600)
-    ser = serial.Serial('/dev/cu.usbmodem1411', 9600)
+    ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
 
     while True:
         looking = True
