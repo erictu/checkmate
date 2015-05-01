@@ -150,9 +150,76 @@ void loop()
   }
   
   else {
+    
   receiveBoard();
-  readBoard();
+  
+  if (incomingCheckState == 2){
+    for (int i = 0; i<3; i++){
+      digitalWrite(checkLED,HIGH);
+      delay(500);
+      digitalWrite(checkLED,LOW);
+      delay(500);
+    }
+    for (int i =0; i<10; i++){
+      digitalWrite(newGameLED,HIGH);
+      delay(100);
+      digitalWrite(newGameLED,LOW);
+      digitalWrite(turnCompleteLED,HIGH);
+      delay(100);
+      digitalWrite(turnCompleteLED,LOW);
+      digitalWrite(checkLED,HIGH);
+      delay(100);
+      digitalWrite(checkLED,LOW);
+    }
+    
+    digitalWrite(newGameLED,HIGH);
+   
+    newGameVal = digitalRead(newGameButton);
+    while (newGameVal == LOW){
+      newGameVal = digitalRead(newGameButton);
+      delay(50);
+    }
+     
+    digitalWrite(newGameLED,LOW);
+    receiveBoard();
   }
+    
+  readBoard();
+  
+  if (checkState == 2){
+    for (int i =0; i<10; i++){
+      digitalWrite(newGameLED,HIGH);
+      delay(100);
+      digitalWrite(newGameLED,LOW);
+      digitalWrite(turnCompleteLED,HIGH);
+      delay(100);
+      digitalWrite(turnCompleteLED,LOW);
+      digitalWrite(checkLED,HIGH);
+      delay(100);
+      digitalWrite(checkLED,LOW);
+    }
+    
+    digitalWrite(newGameLED, HIGH);
+    delay(1000);
+    digitalWrite(newGameLED, LOW);
+    delay(1000);
+    digitalWrite(newGameLED, HIGH);
+    delay(1000);
+    digitalWrite(newGameLED, LOW);
+    
+    digitalWrite(newGameLED, HIGH);
+    
+    newGameVal = digitalRead(newGameButton);
+    while (newGameVal == LOW){
+      newGameVal = digitalRead(newGameButton);
+      delay(50);
+    }
+     
+    digitalWrite(newGameLED,LOW);
+  
+  }
+}
+
 }
 
 
@@ -180,7 +247,16 @@ Serial.println(movePieceIn);
   String pieceTakenStr = movePieceIn.substring(4,5);
   int pieceTaken = pieceTakenStr.toInt();
   String incomingCheckStateStr = movePieceIn.substring(5);
-  int incomingCheckState = incomingCheckStateStr.toInt();
+  incomingCheckState = incomingCheckStateStr.toInt();
+ 
+  Serial.print("movePieceInOld: ");
+  Serial.println(movePieceInOld);
+  Serial.print("movePieceInNew: ");
+  Serial.println(movePieceInNew);
+  Serial.print("pieceTakenStr: ");
+  Serial.println(pieceTakenStr);
+  Serial.print("incomingCheckState: ");
+  Serial.println(incomingCheckState);
  
   for (int i=0; i<64; i++)
   {
@@ -266,8 +342,13 @@ void readBoard(){
 
   //turn turnCompleteLED on
   digitalWrite(turnCompleteLED, HIGH);
+  
+  if (incomingCheckState == 1){
+    digitalWrite(checkLED, HIGH);
+  }
 
   byte mode = 0;
+  pieceTaken = 0;
   
   //Wait for Turn Complete/Check/CheckMate Signal
   turnCompleteVal = digitalRead(turnCompleteButton);
@@ -323,6 +404,8 @@ void readBoard(){
   
   //turn turnCompleteLED off
   digitalWrite(turnCompleteLED, LOW);
+  
+  digitalWrite(checkLED, LOW);
   
   //Reads state of the board 
   for (int i=0; i<16; i++)
