@@ -3,18 +3,20 @@ import sys
 from socket import *
 import serial,time
 
-def send_to_board(data):
+def send_to_board(data, ser):
     print("Received message [Player 2]: " + data)
     print("----------------------------")
-    # ser.write(data)
+    ser.write(data)
 
 def main():
-    host = "10.142.1.103" # set to IP address of target computer
+    host = "10.142.3.144" # set to IP address of target computer
     port = 12000
     buf = 1024
     addr = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
     # ser = serial.Serial('/dev/ttyACM0', 9600)
+    ser = serial.Serial('/dev/cu.usbmodem1411', 9600)
+
     while True:
         looking = True
         while (looking == True): #getting a move to send to other computer, either from android or physical
@@ -30,14 +32,14 @@ def main():
                 print("got it")
                 print(move)
                 print("------------------------")
-            else:
-                print(len(move))
+            # else:
+            #     print(len(move))
         # data = raw_input("Enter your move: ")
         # send_msg = getDataFromArduino()
         # UDPSock.sendto(send_msg, addr)
         print("Waiting for Player 2's Move")
         (rcv_msg, addr) = UDPSock.recvfrom(buf) #get msg over internet
-        send_to_board(rcv_msg)
+        send_to_board(rcv_msg, ser)
     UDPSock.close()
     sys.exit(0)
 

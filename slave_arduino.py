@@ -56,7 +56,7 @@ def main():
     # addr = (host, port)
     # UDPSock = socket(AF_INET, SOCK_DGRAM)
     # UDPSock.bind(addr)
-    ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
+    ser = serial.Serial('/dev/cu.usbmodem1411', 9600)
     while True:
         print("Waiting for Player 1's Move")
         # (rcv_msg, addr) = UDPSock.recvfrom(buf) #get msg over internet
