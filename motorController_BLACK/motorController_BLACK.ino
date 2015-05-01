@@ -28,9 +28,10 @@ AccelStepper xMotor(forwardstep1, backwardstep1);
 AccelStepper yMotor(forwardstep2, backwardstep2);
 
 
+//char * squares[] = {"G8","G7","G6","G5","G4","G3","G2","G1","H8","H7","H6","H5","H4","H3","H2","H1","E8","E7","E6","E5","E4","E3","E2","E1","F8","F7","F6","F5","F4","F3","F2","F1","C8","C7","C6","C5","C4","C3","C2","C1","D8","D7","D6","D5","D4","D3","D2","D1","A8","A7","A6","A5","A4","A3","A2","A1","B8","B7","B6","B5","B4","B3","B2","B1"};
 
-//char * squares[] = {"A1","B1","C1","D1","E1","F1","G1","H1","A2","B2","C2","D2","E2","F2","G2","H2","A3","B3","C3","D3","E3","F3","G3","H3","A4","B4","C4","D4","E4","F4","G4","H4","A5","B5","C5","D5","E5","F5","G5","H5","A6","B6","C6","D6","E6","F6","G6","H6","A7","B7","C7","D7","E7","F7","G7","H7","A8","B8","C8","D8","E8","F8","G8","H8"};
-char * squares[] = {"G8","G7","G6","G5","G4","G3","G2","G1","H8","H7","H6","H5","H4","H3","H2","H1","E8","E7","E6","E5","E4","E3","E2","E1","F8","F7","F6","F5","F4","F3","F2","F1","C8","C7","C6","C5","C4","C3","C2","C1","D8","D7","D6","D5","D4","D3","D2","D1","A8","A7","A6","A5","A4","A3","A2","A1","B8","B7","B6","B5","B4","B3","B2","B1"};
+char * squares[] = {"A8","A7","A6","A5","A4","A3","A2","A1","B8","B7","B6","B5","B4","B3","B2","B1","C8","C7","C6","C5","C4","C3","C2","C1","D8","D7","D6","D5","D4","D3","D2","D1","E8","E7","E6","E5","E4","E3","E2","E1","F8","F7","F6","F5","F4","F3","F2","F1","G8","G7","G6","G5","G4","G3","G2","G1","H8","H7","H6","H5","H4","H3","H2","H1"};
+
 
 //MIRRORED FROM WHITE BOARD
 //char letters[] = {'A','B','C','D','E','F','G','H'};
@@ -217,7 +218,13 @@ void loop(){
     
     //MOVE MOTORS TO GRAVEYARD
     //when piece is cut, always act as though moveDirect == true
-    yLine = yNew + halfSquare;
+    if (occupiedNumberIndex == 7){
+      yLine = yNew - halfSquare;
+    }
+    else {
+      yLine = yNew + halfSquare;
+    }
+    
     moveMotors(xNew,yLine);
     moveMotors(xGraveyard,yLine);
     
@@ -232,12 +239,28 @@ void loop(){
     digitalWrite(magnet, HIGH);
     delay(500);
     
-    //MOVE MOTORS TO 'NEW'
-    xLine = xOld + halfSquare;
-    moveMotors(xLine,yOld);
-    moveMotors(xLine,yLine);
-    moveMotors(xNew,yLine);
-    moveMotors(xNew,yNew);
+    if (moveDirect == false){
+      if (diagonalMove == 1){
+        moveMotorsDual(xNew,yNew);
+      }
+      
+      else {
+        xLine = xOld + halfSquare;
+        if (occupiedNumberIndex == 7){
+          yLine = yNew - halfSquare;
+        }
+        else {
+          yLine = yNew + halfSquare;
+        }
+        moveMotors(xLine,yOld);
+        moveMotors(xLine,yLine);
+        moveMotors(xNew,yLine);
+        moveMotors(xNew,yNew);
+      }
+    }
+    else {
+      moveMotors(xNew,yNew); 
+    }
     
     //TURN OFF E.M.
     digitalWrite(magnet, LOW);
@@ -271,7 +294,12 @@ void loop(){
       
       else {
         xLine = xOld + halfSquare;
-        yLine = yNew + halfSquare;
+        if (occupiedNumberIndex == 7){
+          yLine = yNew - halfSquare;
+        }
+        else {
+          yLine = yNew + halfSquare;
+        }
         moveMotors(xLine,yOld);
         moveMotors(xLine,yLine);
         moveMotors(xNew,yLine);
