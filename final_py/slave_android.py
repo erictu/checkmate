@@ -13,7 +13,7 @@ while True:
     msg = conn.recv(1024)
     print (msg)
     fh = open("log.txt","a")
-    fh.write(msg + "\n")
+    fh.write(msg)
     fh.close()
     # send_msg = raw_input("Enter your move: ")
     # conn.sendto(send_msg, addr)

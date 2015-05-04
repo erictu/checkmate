@@ -9,13 +9,13 @@ def send_to_board(data, ser):
     ser.write(data)
 
 def main():
-    host = "10.142.3.144" # set to IP address of target computer
+    host = "10.142.35.218" # set to IP address of target computer
     port = 12000
     buf = 1024
     addr = (host, port)
     UDPSock = socket(AF_INET, SOCK_DGRAM)
     # ser = serial.Serial('/dev/ttyACM0', 9600)
-    ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
+    ser = serial.Serial('/dev/cu.usbmodem1411', 9600)
 
     while True:
         looking = True
